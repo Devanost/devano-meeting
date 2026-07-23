@@ -2,10 +2,12 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ParticipantList } from "@/components/ParticipantList";
 import { trpc } from "@/lib/trpc";
 import { useLocation, useRoute } from "wouter";
 import { useEffect, useRef, useState } from "react";
-import { Mic, MicOff, Video, VideoOff, Phone, Send, Users } from "lucide-react";
+import { Mic, MicOff, Video, VideoOff, Phone, Send, Users, MessageSquare } from "lucide-react";
 import { toast } from "sonner";
 
 export default function MeetingRoom() {
@@ -231,54 +233,75 @@ export default function MeetingRoom() {
           </div>
         </div>
 
-        {/* Chat Sidebar */}
-        <div className="w-80 border-l border-border bg-card flex flex-col">
-          {/* Messages */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-4">
-            {messages.length === 0 ? (
-              <div className="text-center text-muted-foreground py-8">
-                <p>No messages yet. Start the conversation!</p>
-              </div>
-            ) : (
-              messages.map((msg) => (
-                <div key={msg.id} className="space-y-1">
-                  <p className="text-xs font-medium text-muted-foreground">
-                    {msg.userId === user?.id ? "You" : `User ${msg.userId}`}
-                  </p>
-                  <div className="bg-muted rounded-lg p-3 text-sm text-foreground break-words">
-                    {msg.content}
-                  </div>
-                </div>
-              ))
-            )}
-            <div ref={messagesEndRef} />
-          </div>
+        {/* Chat & Participants Sidebar */}
+        <div className="w-96 border-l border-border bg-card flex flex-col">
+          <Tabs defaultValue="chat" className="flex-1 flex flex-col">
+            <TabsList className="w-full rounded-none border-b border-border bg-transparent">
+              <TabsTrigger value="chat" className="gap-2 flex-1">
+                <MessageSquare className="w-4 h-4" />
+                Chat
+              </TabsTrigger>
+              <TabsTrigger value="participants" className="gap-2 flex-1">
+                <Users className="w-4 h-4" />
+                Participants ({participants.length})
+              </TabsTrigger>
+            </TabsList>
 
-          {/* Message Input */}
-          <div className="border-t border-border p-4">
-            <div className="flex gap-2">
-              <Input
-                placeholder="Type a message..."
-                value={messageInput}
-                onChange={(e) => setMessageInput(e.target.value)}
-                onKeyPress={(e) => {
-                  if (e.key === "Enter" && !e.shiftKey) {
-                    e.preventDefault();
-                    handleSendMessage();
-                  }
-                }}
-                disabled={sendMessageMutation.isPending}
-              />
-              <Button
-                onClick={handleSendMessage}
-                disabled={sendMessageMutation.isPending || !messageInput.trim()}
-                size="sm"
-                className="bg-accent hover:bg-accent/90 text-accent-foreground px-3"
-              >
-                <Send className="w-4 h-4" />
-              </Button>
-            </div>
-          </div>
+            {/* Chat Tab */}
+            <TabsContent value="chat" className="flex-1 flex flex-col m-0">
+              <div className="flex-1 overflow-y-auto p-4 space-y-4">
+                {messages.length === 0 ? (
+                  <div className="text-center text-muted-foreground py-8">
+                    <MessageSquare className="w-8 h-8 mx-auto mb-2 opacity-50" />
+                    <p className="text-sm">No messages yet. Start the conversation!</p>
+                  </div>
+                ) : (
+                  messages.map((msg) => (
+                    <div key={msg.id} className="space-y-1">
+                      <p className="text-xs font-medium text-muted-foreground">
+                        {msg.userId === user?.id ? "You" : `User ${msg.userId}`}
+                      </p>
+                      <div className="bg-muted rounded-lg p-3 text-sm text-foreground break-words">
+                        {msg.content}
+                      </div>
+                    </div>
+                  ))
+                )}
+                <div ref={messagesEndRef} />
+              </div>
+
+              {/* Message Input */}
+              <div className="border-t border-border p-4">
+                <div className="flex gap-2">
+                  <Input
+                    placeholder="Type a message..."
+                    value={messageInput}
+                    onChange={(e) => setMessageInput(e.target.value)}
+                    onKeyPress={(e) => {
+                      if (e.key === "Enter" && !e.shiftKey) {
+                        e.preventDefault();
+                        handleSendMessage();
+                      }
+                    }}
+                    disabled={sendMessageMutation.isPending}
+                  />
+                  <Button
+                    onClick={handleSendMessage}
+                    disabled={sendMessageMutation.isPending || !messageInput.trim()}
+                    size="sm"
+                    className="bg-accent hover:bg-accent/90 text-accent-foreground px-3"
+                  >
+                    <Send className="w-4 h-4" />
+                  </Button>
+                </div>
+              </div>
+            </TabsContent>
+
+            {/* Participants Tab */}
+            <TabsContent value="participants" className="flex-1 overflow-y-auto m-0 p-4">
+              <ParticipantList participants={participants} currentUserId={user?.id} />
+            </TabsContent>
+          </Tabs>
         </div>
       </div>
     </div>

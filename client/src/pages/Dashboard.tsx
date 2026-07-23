@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { trpc } from "@/lib/trpc";
 import { Plus, Calendar, Users, Clock } from "lucide-react";
+import { JoinMeetingDialog } from "@/components/JoinMeetingDialog";
 import { useState } from "react";
 import { useLocation } from "wouter";
 import { toast } from "sonner";
@@ -58,13 +59,14 @@ export default function Dashboard() {
             <h1 className="text-3xl font-bold text-foreground">Welcome back, {user?.name || "Team"}!</h1>
             <p className="text-muted-foreground mt-2">Manage your meetings and collaborate with your team</p>
           </div>
-          <Dialog open={isOpen} onOpenChange={setIsOpen}>
-            <DialogTrigger asChild>
-              <Button className="bg-accent hover:bg-accent/90 text-accent-foreground gap-2">
-                <Plus className="w-4 h-4" />
-                New Meeting
-              </Button>
-            </DialogTrigger>
+          <div className="flex gap-2">
+            <Dialog open={isOpen} onOpenChange={setIsOpen}>
+              <DialogTrigger asChild>
+                <Button className="bg-accent hover:bg-accent/90 text-accent-foreground gap-2">
+                  <Plus className="w-4 h-4" />
+                  New Meeting
+                </Button>
+              </DialogTrigger>
             <DialogContent>
               <DialogHeader>
                 <DialogTitle>Create a New Meeting</DialogTitle>
@@ -99,7 +101,9 @@ export default function Dashboard() {
                 </Button>
               </div>
             </DialogContent>
-          </Dialog>
+            </Dialog>
+            <JoinMeetingDialog />
+          </div>
         </div>
 
         {/* Quick Stats */}

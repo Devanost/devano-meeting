@@ -7,6 +7,8 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
 import MeetingRoom from "./pages/MeetingRoom";
+import TeamDirectory from "./pages/TeamDirectory";
+import MeetingHistory from "./pages/MeetingHistory";
 import { DashboardLayoutSkeleton } from "./components/DashboardLayoutSkeleton";
 import { useAuth } from "./_core/hooks/useAuth";
 
@@ -22,6 +24,8 @@ function Router() {
       <Route path={"/"} component={Home} />
       <Route path={"/dashboard"} component={Dashboard} />
       <Route path={"/meeting/:roomCode"} component={MeetingRoom} />
+      <Route path={"/team"} component={TeamDirectory} />
+      <Route path={"/history"} component={MeetingHistory} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
