@@ -5,6 +5,7 @@ import { Card } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { trpc } from "@/lib/trpc";
 import { Users, Plus, Mail, Phone } from "lucide-react";
+import { getInitials } from "@/lib/formatting";
 
 interface TeamMember {
   id: number;
@@ -58,7 +59,7 @@ export default function TeamDirectory() {
                 <div className="flex items-start justify-between mb-4">
                   <Avatar className="h-12 w-12">
                     <AvatarFallback className="bg-accent text-accent-foreground font-semibold">
-                      {(member.userName || "User").charAt(0).toUpperCase()}
+                      {getInitials(member.userName || "User")}
                     </AvatarFallback>
                   </Avatar>
                   <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium ${

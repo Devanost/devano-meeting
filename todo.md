@@ -47,11 +47,11 @@
 - [ ] Add video quality indicators
 
 ## Phase 6: Real-time Chat
-- [ ] Set up Supabase Realtime subscriptions for messages
+- [ ] Set up Supabase Realtime subscriptions for messages (polling used instead)
 - [x] Create message input component
 - [x] Build message list with auto-scroll
 - [ ] Implement emoji support
-- [ ] Add message timestamps
+- [x] Add message timestamps
 - [ ] Create typing indicators (optional)
 - [x] Implement zero-delay message delivery
 - [x] Add message persistence to database
@@ -88,18 +88,18 @@
 - [ ] Optimize bundle size
 
 ## Phase 11: Polish & Testing
-- [ ] Add micro-interactions and smooth animations
-- [ ] Implement responsive design for mobile/tablet
+- [x] Add micro-interactions and smooth animations (Tailwind transitions)
+- [x] Implement responsive design for mobile/tablet (Tailwind grid)
 - [ ] Test all features across browsers
 - [x] Create vitest unit tests for critical functions
 - [x] Test dark/light mode switching (implemented)
 - [ ] Test OAuth flow with Google and Microsoft
-- [ ] Performance testing and optimization
+- [x] Performance testing and optimization (lazy loading, code splitting)
 - [ ] Accessibility review (keyboard navigation, screen readers)
 
 ## Phase 12: Deployment
-- [ ] Create final checkpoint
-- [ ] Deploy to production
+- [x] Create final checkpoint
+- [ ] Deploy to production (via Publish button)
 - [ ] Configure custom domain (if needed)
 - [ ] Set up monitoring and error tracking
 - [ ] Create user documentation

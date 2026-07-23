@@ -1,6 +1,7 @@
 import { Card } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Mic, MicOff, Video, VideoOff } from "lucide-react";
+import { getInitials, formatMessageTime } from "@/lib/formatting";
 
 interface Participant {
   id: number;
@@ -35,7 +36,7 @@ export function ParticipantList({ participants, currentUserId }: ParticipantList
           <div className="flex items-center gap-3 flex-1 min-w-0">
             <Avatar className="h-8 w-8 flex-shrink-0">
               <AvatarFallback className="bg-accent text-accent-foreground text-xs font-semibold">
-                {(participant.userName || "User").charAt(0).toUpperCase()}
+                {getInitials(participant.userName || "User")}
               </AvatarFallback>
             </Avatar>
             <div className="min-w-0 flex-1">
@@ -46,7 +47,7 @@ export function ParticipantList({ participants, currentUserId }: ParticipantList
                 )}
               </p>
               <p className="text-xs text-muted-foreground">
-                Joined {new Date(participant.joinedAt).toLocaleTimeString()}
+                Joined {formatMessageTime(participant.joinedAt)}
               </p>
             </div>
           </div>

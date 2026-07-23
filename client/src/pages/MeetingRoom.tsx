@@ -9,6 +9,7 @@ import { useLocation, useRoute } from "wouter";
 import { useEffect, useRef, useState } from "react";
 import { Mic, MicOff, Video, VideoOff, Phone, Send, Users, MessageSquare } from "lucide-react";
 import { toast } from "sonner";
+import { formatMessageTime } from "@/lib/formatting";
 
 export default function MeetingRoom() {
   const [, params] = useRoute("/meeting/:roomCode");
@@ -258,9 +259,14 @@ export default function MeetingRoom() {
                 ) : (
                   messages.map((msg) => (
                     <div key={msg.id} className="space-y-1">
-                      <p className="text-xs font-medium text-muted-foreground">
-                        {msg.userId === user?.id ? "You" : `User ${msg.userId}`}
-                      </p>
+                      <div className="flex items-center justify-between">
+                        <p className="text-xs font-medium text-muted-foreground">
+                          {msg.userId === user?.id ? "You" : `User ${msg.userId}`}
+                        </p>
+                        <p className="text-xs text-muted-foreground/70">
+                          {formatMessageTime(msg.createdAt)}
+                        </p>
+                      </div>
                       <div className="bg-muted rounded-lg p-3 text-sm text-foreground break-words">
                         {msg.content}
                       </div>
